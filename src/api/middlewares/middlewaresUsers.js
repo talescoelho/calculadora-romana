@@ -31,7 +31,6 @@ const verifyRegisterFields = async (req, res, next) => {
   }
 
   const verifyEmail = await servicesUsers.emailExists(email);
-  console.log(verifyEmail)
   if (verifyEmail) {
     return res.status(StatusCodes.CONFLICT).json(errorMessage('"email" already registered'));
   }
