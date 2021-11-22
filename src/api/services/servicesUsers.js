@@ -8,8 +8,8 @@ const SECRET_KEY = process.env.SECRET_KEY;
 const createUser = async (item) => {
   const { password } = item;
   const salt = await bcrypt.genSalt(10);
-  const newPassword = await bcrypt.hash(password, salt);
-  const users = await models.insertOne('users', { ...item, password: newPassword });
+  const hashedPassword = await bcrypt.hash(password, salt);
+  const users = await models.insertOne('users', { ...item, password: hashedPassword });
   const {
     name, email, userId,
   } = users;
@@ -41,10 +41,7 @@ const logIn = async ({ email, password }) => {
 
 const emailExists = async (email) => {
   const emailExist = await models.emailExists('users', email);
-  if (emailExist) {
-    return true;
-  }
-  return false;
+  return !!emailExist;
 }
 
 module.exports = {
