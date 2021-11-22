@@ -1,4 +1,5 @@
 const models = require('../models');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const SECRET_KEY = process.env.SECRET_KEY;
@@ -16,13 +17,13 @@ const createUser = async (item) => {
 const logIn = async (item) => {
   const user = await models.logIn('users', item);
   if (!user) {
-    return { message: 'Email or password do not match' };
+    return { message: '"email" or "password" do not match' };
   }
   const {
-    name, area, _id, role,
+    name, userId
   } = user;
   const token = jwt.sign({
-    name, area, _id, role,
+    name, userId
   }, SECRET_KEY);
   return token;
 };
