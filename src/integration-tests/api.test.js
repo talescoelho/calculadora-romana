@@ -125,11 +125,11 @@ describe('Teste: Tasks', () => {
         .send({
           'name': 'user',
           'email': 'email@email.com',
-          'password': '',
+          'password': '12345',
         });
       expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
       expect(newUser.body).to.have.property('message');
-      expect(newUser.body.message).to.be.equal('"password" is not allowed to be empty');
+      expect(newUser.body.message).to.be.equal('"password" length must be at least 6 characters long');
     });
   });
 
@@ -212,6 +212,13 @@ describe('Teste: Tasks', () => {
   // Logar com sucesso
   describe('Quando Logar com sucesso 13', () => {
     it('13 - caminho: POST "/users/login" Quando logar com sucesso', async () => {
+      await chai.request(server)
+        .post('/users/register')
+        .send({
+          'name': 'New User',
+          'email': 'new-user@email.com',
+          'password': '123456',
+        });
       const login = await chai.request(server)
         .post('/users/login')
         .send({
@@ -220,6 +227,129 @@ describe('Teste: Tasks', () => {
         });
       expect(login).to.have.status(StatusCodes.OK);
       expect(login.body).to.have.property('token');
+    });
+  });
+
+  // Logar sem sucesso campo email
+  describe('Quando inserir um usuário SEM sucesso 14 ~ 17', () => {
+    it('14 - caminho: POST "/users/register" Quando logar um "usuário" sem o campo "email"', async () => {
+      const newUser = await chai.request(server)
+        .post('/users/register')
+        .send({
+          'password': '123445',
+        });
+      expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
+      expect(newUser.body).to.have.property('message');
+      expect(newUser.body.message).to.be.equal('"email" is required');
+    });
+
+    it('15 - caminho: POST "/users/register" Quando logar um "usuário" com o campo "email" mal formatado', async () => {
+      await chai.request(server)
+        .post('/users/register')
+        .send({
+          'name': 'New User',
+          'email': 'new-user@email.com',
+          'password': '123456',
+        });
+      const newUser = await chai.request(server)
+        .post('/users/register')
+        .send({
+          'email': '@email.com',
+          'password': '123445',
+        });
+      expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
+      expect(newUser.body).to.have.property('message');
+      expect(newUser.body.message).to.be.equal('"email" or "password" wrong');
+    });
+
+    it('16 - caminho: POST "/users/register" Quando logar um "usuário" com o campo "email" mal formatado', async () => {
+      await chai.request(server)
+        .post('/users/register')
+        .send({
+          'name': 'New User',
+          'email': 'new-user@email.com',
+          'password': '123456',
+        });
+      const newUser = await chai.request(server)
+        .post('/users/register')
+        .send({
+          'email': 'new-user@.com',
+          'password': '123445',
+        });
+      expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
+      expect(newUser.body).to.have.property('message');
+      expect(newUser.body.message).to.be.equal('"email" or "password" wrong');
+    });
+
+    it('17 - caminho: POST "/users/register" Quando logar um "usuário" com o campo "email" mal formatado', async () => {
+      await chai.request(server)
+        .post('/users/register')
+        .send({
+          'name': 'New User',
+          'email': 'new-user@email.com',
+          'password': '123456',
+        });
+      const newUser = await chai.request(server)
+        .post('/users/register')
+        .send({
+          'email': 'new-user@email.',
+          'password': '123445',
+        });
+      expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
+      expect(newUser.body).to.have.property('message');
+      expect(newUser.body.message).to.be.equal('"email" or "password" wrong');
+    });
+  });
+
+  // Logar sem sucesso campo email
+  describe('Quando inserir um usuário SEM sucesso 18 ~ 20', () => {
+    it('18 - caminho: POST "/users/register" Quando logar um "usuário" sem o campo "password"', async () => {
+      const newUser = await chai.request(server)
+        .post('/users/register')
+        .send({
+          'email': 'email@email.com',
+        });
+      expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
+      expect(newUser.body).to.have.property('message');
+      expect(newUser.body.message).to.be.equal('"password" is required');
+    });
+
+    it('19 - caminho: POST "/users/register" Quando logar um "usuário" com campo "password" vazio', async () => {
+      await chai.request(server)
+        .post('/users/register')
+        .send({
+          'name': 'New User',
+          'email': 'new-user@email.com',
+          'password': '123456',
+        });
+      const newUser = await chai.request(server)
+        .post('/users/register')
+        .send({
+          'email': 'new-user@email.com',
+          'password': '',
+        });
+      expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
+      expect(newUser.body).to.have.property('message');
+      expect(newUser.body.message).to.be.equal('"email" or "password" wrong');
+    });
+
+    it('20 - caminho: POST "/users/register" Quando logar um "usuário" com campo "password" com menos de 5 caracteres', async () => {
+      await chai.request(server)
+        .post('/users/register')
+        .send({
+          'name': 'New User',
+          'email': 'new-user@email.com',
+          'password': '123456',
+        });
+      const newUser = await chai.request(server)
+        .post('/users/register')
+        .send({
+          'email': 'new-user@email.com',
+          'password': '1234',
+        });
+      expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
+      expect(newUser.body).to.have.property('message');
+      expect(newUser.body.message).to.be.equal('"email" or "password" wrong');
     });
   });
 });
