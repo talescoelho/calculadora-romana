@@ -446,7 +446,7 @@ describe('Teste: Tasks', () => {
       expect(subRomans.body).to.have.property('equacao');
       expect(subRomans.body.result).to.be.equal(11);
       expect(subRomans.body.resultRomanos).to.be.equal('XI');
-      expect(subRomans.body.equacao).to.be.equal('XVII - V - I = V');
+      expect(subRomans.body.equacao).to.be.equal('XVII - V - I = XI');
     });
   });
 

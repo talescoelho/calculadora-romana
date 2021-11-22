@@ -29,15 +29,18 @@ function convertToRomans(num, newArr) {
   return result;
 }
 
+function sumChars(num) {
+  if (num[0] === 'I') {
+    return num.split('').reduce((acc, el) => el === "I" ? acc + 1 : numRoman[el] - acc, 0);
+  }
+  return num.split('').reduce((acc, el) => el === "I" ? acc + 1 : numRoman[el] + acc, 0);
+}
+
 const somaRomans = (romans) => {
   const newArr = Object.entries(numRoman).sort((a, b) => b[0] - a[0])
   let soma =  romans.reduce((acc, val) => {
-      if (!val.includes('I')) {
-        return acc + numRoman[val]
-      } if (val[0] === 'I') {
-        return acc + val.split('').reduce((a, e) => e === "I" ? a + 1 : numRoman[e] - a, 0)
-      }
-      return acc + val.split('').reduce((a, e) => e === "I" ? a + 1 : a + numRoman[e], 0)
+      val = sumChars(val);
+      return acc + val;
     } ,0)
   
   return {
@@ -50,28 +53,16 @@ const somaRomans = (romans) => {
 const subtracaoRomans = (romans) => {
   const newArr = Object.entries(numRoman).sort((a, b) => b[0] - a[0])
   let sub =  romans.reduce((acc, val, index) => {
-      if (!val.includes('I')) {
-        if (index === 0) {
-          return numRoman[val] - acc;
-        }
-        return acc - numRoman[val];
-      } if (val[0] === 'I') {
-        const res = val.split('').reduce((a, e) => e === "I" ? a + 1 : numRoman[e] - a, 0)
-        if (index === 0) {
-          return res - acc;
-        }
-        return acc - res;
-      }
-      const res = val.split('').reduce((a, e) => e === "I" ? a + 1 : numRoman[e] - a, 0)
+    val = sumChars(val);
       if (index === 0) {
-        return res - acc;
+        return val - acc;
       }
-      return acc - res;
+      return acc - val;
     } ,0)
   if (sub <= 0) {
     return { message: 'números romanos não podem ser ZERO "0" ou NEGATIVOS' }
   } 
-  
+ 
   return {
     result: sub,
     resultRomanos: convertToRomans(sub, newArr),
