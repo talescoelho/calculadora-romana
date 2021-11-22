@@ -2,6 +2,32 @@
 
 Desafio da VilaApps que consiste em criar uma calculadora de números romanos.
 
+## 🚀 Começando
+
+## Utilize a rota "POST /users/register" para criar um novo usuário com o JSON:
+```
+body: {
+  "name": "Fulano",
+  "email": "fulado@email.com",
+  "password": "123456789",
+}
+```
+
+## Utilize a rota "POST /users/login" para logar com um usuário existente, o retorno vai ser o token para fazer a autenticação para a rota de "POST /romanos/soma" e "POST /romanos/subtracao". JSON:
+```
+body: {
+  "email": "fulado@email.com",
+  "password": "123456789",
+}
+```
+
+## Utilize a rota "POST /romanos/soma" e "POST /romanos/subtracao" para fazer as operações matemáticas com o JSON:
+```
+body: {
+  "romans": ["V", "X", "I"],
+}
+```
+
 ### 🔧 Instalação
 
 ```bash
@@ -27,8 +53,6 @@ $ npm run test:dev
 
 ## 🛠️ Construído com
 
-Mencione as ferramentas que você usou para criar seu projeto
-
 * [bcrypt](https://github.com/kelektiv/node.bcrypt.js) - Utilizado para encriptação de password
 * [chai](https://www.chaijs.com/) - Chai é uma biblioteca de asserção BDD / TDD
 * [chai-http](https://www.chaijs.com/plugins/chai-http/) - Teste de integração HTTP com asserções Chai.
@@ -43,15 +67,9 @@ Mencione as ferramentas que você usou para criar seu projeto
 * [nyc](https://www.npmjs.com/package/nyc) - Cobertura mapeada de origem de projetos Babel e TypeScript
 * [sinon](https://sinonjs.org/) - Teste autônomo de spies, stubs e mocks para JavaScript. Funciona com qualquer estrutura de teste de unidade.
 
-## 📌 Versão
-
-Nós usamos [SemVer](http://semver.org/) para controle de versão. Para as versões disponíveis, observe as [tags neste repositório](https://github.com/suas/tags/do/projeto). 
-
 ## ✒️ Autores
 
-Mencione todos aqueles que ajudaram a levantar o projeto desde o seu início
-
-* **Tales Coelho** - *Projeto Completo* - [umdesenvolvedor](https://github.com/talescoelho)
+* **Tales Coelho** - *Projeto Completo* - [Github](https://github.com/talescoelho)
 
 ## 🎁 Expressões de gratidão
 
