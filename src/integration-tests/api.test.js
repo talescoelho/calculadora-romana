@@ -352,4 +352,121 @@ describe('Teste: Tasks', () => {
       expect(newUser.body.message).to.be.equal('"email" or "password" do not match');
     });
   });
+
+  // Somando um ou mais números romanos
+  describe('Quando Soma com sucesso 21', () => {
+    it('21 - caminho: POST "/romanos/soma" Quando logar com sucesso', async () => {
+      await chai.request(server)
+        .post('/users/register')
+        .send({
+          'name': 'New User',
+          'email': 'new-user@email.com',
+          'password': '123456',
+        });
+      const loggedUser = await chai.request(server)
+        .post('/users/login')
+        .send({
+          'email': 'new-user@email.com',
+          'password': '123456',
+        });
+
+      let sumRomans = await chai.request(server)
+        .post('/romanos/soma')
+        .set({ 'Authorization': `${loggedUser.body.token}` })
+        .send({
+          'romanos': ["V", "V"],
+        });
+      expect(sumRomans).to.have.status(StatusCodes.OK);
+      expect(sumRomans.body).to.have.property('result');
+      expect(sumRomans.body.result).to.be.equal('X');
+
+      sumRomans = await chai.request(server)
+        .post('/romanos/soma')
+        .set({ 'Authorization': `${loggedUser.body.token}` })
+        .send({
+          'romanos': ["V", "V", "I", "V"],
+        });
+      expect(sumRomans).to.have.status(StatusCodes.OK);
+      expect(sumRomans.body).to.have.property('result');
+      expect(sumRomans.body.result).to.be.equal('XVI');
+    });
+  });
+
+  // Subtraindo um ou mais números romanos
+  describe('Quando Soma com sucesso 22', () => {
+    it('22 - caminho: POST "/romanos/subtracao" Quando logar com sucesso', async () => {
+      await chai.request(server)
+        .post('/users/register')
+        .send({
+          'name': 'New User',
+          'email': 'new-user@email.com',
+          'password': '123456',
+        });
+      const loggedUser = await chai.request(server)
+        .post('/users/login')
+        .send({
+          'email': 'new-user@email.com',
+          'password': '123456',
+        });
+
+      let subRomans = await chai.request(server)
+        .post('/romanos/subtracao')
+        .set({ 'Authorization': `${loggedUser.body.token}` })
+        .send({
+          'romanos': ["X", "V"],
+        });
+      expect(subRomans).to.have.status(StatusCodes.OK);
+      expect(subRomans.body).to.have.property('result');
+      expect(subRomans.body.result).to.be.equal('V');
+
+      subRomans = await chai.request(server)
+        .post('/romanos/subtracao')
+        .set({ 'Authorization': `${loggedUser.body.token}` })
+        .send({
+          'romanos': ["XVII", "V", "I"],
+        });
+      expect(subRomans).to.have.status(StatusCodes.OK);
+      expect(subRomans.body).to.have.property('result');
+      expect(subRomans.body.result).to.be.equal('XI');
+    });
+  });
+
+  // Subtraindo um ou mais números romanos sem sucesso
+  describe('Quando Soma com sucesso 22', () => {
+    it('23 - caminho: POST "/romanos/subtracao" Quando logar com sucesso', async () => {
+      await chai.request(server)
+        .post('/users/register')
+        .send({
+          'name': 'New User',
+          'email': 'new-user@email.com',
+          'password': '123456',
+        });
+      const loggedUser = await chai.request(server)
+        .post('/users/login')
+        .send({
+          'email': 'new-user@email.com',
+          'password': '123456',
+        });
+
+      let subRomans = await chai.request(server)
+        .post('/romanos/subtracao')
+        .set({ 'Authorization': `${loggedUser.body.token}` })
+        .send({
+          'romanos': ["V", "X"],
+        });
+      expect(subRomans).to.have.status(StatusCodes.BAD_REQUEST);
+      expect(subRomans.body).to.have.property('message');
+      expect(subRomans.body.message).to.be.equal('números romanos não podem ser ZERO "0" ou NEGATIVOS');
+
+      subRomans = await chai.request(server)
+        .post('/romanos/subtracao')
+        .set({ 'Authorization': `${loggedUser.body.token}` })
+        .send({
+          'romanos': ["XVII", "XVII"],
+        });
+      expect(subRomans).to.have.status(StatusCodes.OK);
+      expect(subRomans.body).to.have.property('result');
+      expect(subRomans.body.result).to.be.equal('números romanos não podem ser ZERO "0" ou NEGATIVOS');
+    });
+  });
 });
