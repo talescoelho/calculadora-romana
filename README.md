@@ -26,7 +26,7 @@ body: {
 }
 ```
 
-#### Utilize a rota "POST /users/login" para logar com um usuário existente, o retorno vai ser o token para fazer a autenticação para a rota de "POST /romanos/soma" e "POST /romanos/subtracao". JSON:
+#### Utilize a rota "POST /users/login" para logar com um usuário existente, o retorno vai ser o token para fazer a autenticação para as rotas de "POST /romanos/soma" e "POST /romanos/subtracao". JSON:
 ```
 body: {
   "email": "fulado@email.com",
