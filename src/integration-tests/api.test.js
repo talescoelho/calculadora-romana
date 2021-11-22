@@ -25,14 +25,6 @@ describe('Teste: Tasks', () => {
     const connectionMock = await MongoClient.connect(URLMock, OPTIONS);
 
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-
-    await chai.request(server)
-        .post('/users/register')
-        .send({
-          'name': 'User Teste Create',
-          'email': 'user@email.com',
-          'password': '123456',
-        });
   });
 
   after(async () => {
@@ -46,21 +38,21 @@ describe('Teste: Tasks', () => {
       const newUser = await chai.request(server)
         .post('/users/register')
         .send({
-          'name': 'user',
-          'email': 'email@email.com',
+          'name': 'New User',
+          'email': 'new-user@email.com',
           'password': '123456',
         });
       expect(newUser).to.have.status(StatusCodes.OK);
       expect(newUser.body.user).to.have.property('name');
       expect(newUser.body.user).to.have.property('email');
       expect(newUser.body.user).to.have.property('userId');
-      expect(newUser.body.user.name).to.be.equal('user');
-      expect(newUser.body.user.email).to.be.equal('email@email.com');
+      expect(newUser.body.user.name).to.be.equal('New User');
+      expect(newUser.body.user.email).to.be.equal('new-user@email.com');
     });
   });
 
   // Inserir users sem sucesso campo "name"
-  describe('Quando inserir um usuário SEM sucesso 2 ~ 3', () => {
+  describe('Quando inserir um usuário SEM sucesso 2 ~ 4', () => {
     it('02 - caminho: POST "/users/register" Quando inserir um novo "usuário" sem o campo "name"', async () => {
       const newUser = await chai.request(server)
         .post('/users/register')
@@ -70,10 +62,10 @@ describe('Teste: Tasks', () => {
         });
       expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
       expect(newUser.body).to.have.property('message');
-      expect(newUser.body.message).to.be.equal('"name" precisa de');
+      expect(newUser.body.message).to.be.equal('"name" is required');
     });
 
-    it('03 - caminho: POST "/users/register" Quando inserir um novo "usuário" com campo "name" vazio ou com menos de 3 caracteres', async () => {
+    it('03 - caminho: POST "/users/register" Quando inserir um novo "usuário" com campo "name" vazio', async () => {
       const newUser = await chai.request(server)
         .post('/users/register')
         .send({
@@ -83,13 +75,26 @@ describe('Teste: Tasks', () => {
         });
       expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
       expect(newUser.body).to.have.property('message');
-      expect(newUser.body.message).to.be.equal('"name" com menos de 3 caracteres');
+      expect(newUser.body.message).to.be.equal('"name" is not allowed to be empty');
+    });
+
+    it('04 - caminho: POST "/users/register" Quando inserir um novo "usuário" com campo "name" com menos de 3 caracteres', async () => {
+      const newUser = await chai.request(server)
+        .post('/users/register')
+        .send({
+          'name': 'as',
+          'email': 'email@email.com',
+          'password': '123456',
+        });
+      expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
+      expect(newUser.body).to.have.property('message');
+      expect(newUser.body.message).to.be.equal('"name" length must be at least 3 characters long');
     });
   });
 
   // Inserir users sem sucesso campo "password"
-  describe('Quando inserir um usuário SEM sucesso 4 ~ 5', () => {
-    it('04 - caminho: POST "/users/register" Quando inserir um novo "usuário" sem o campo "password"', async () => {
+  describe('Quando inserir um usuário SEM sucesso 5 ~ 7', () => {
+    it('05 - caminho: POST "/users/register" Quando inserir um novo "usuário" sem o campo "password"', async () => {
       const newUser = await chai.request(server)
         .post('/users/register')
         .send({
@@ -98,26 +103,39 @@ describe('Teste: Tasks', () => {
         });
       expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
       expect(newUser.body).to.have.property('message');
-      expect(newUser.body.message).to.be.equal('"password" precisa de');
+      expect(newUser.body.message).to.be.equal('"password" is required');
     });
 
-    it('05 - caminho: POST "/users/register" Quando inserir um novo "usuário" com campo "password" vazio ou com menos de 5 caracteres', async () => {
+    it('06 - caminho: POST "/users/register" Quando inserir um novo "usuário" com campo "password" vazio', async () => {
       const newUser = await chai.request(server)
         .post('/users/register')
         .send({
-          'name': '',
+          'name': 'user',
           'email': 'email@email.com',
-          'password': '1234',
+          'password': '',
         });
       expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
       expect(newUser.body).to.have.property('message');
-      expect(newUser.body.message).to.be.equal('"password" com menos de 3 caracteres');
+      expect(newUser.body.message).to.be.equal('"password" is not allowed to be empty');
+    });
+
+    it('07 - caminho: POST "/users/register" Quando inserir um novo "usuário" com campo "password" com menos de 5 caracteres', async () => {
+      const newUser = await chai.request(server)
+        .post('/users/register')
+        .send({
+          'name': 'user',
+          'email': 'email@email.com',
+          'password': '',
+        });
+      expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
+      expect(newUser.body).to.have.property('message');
+      expect(newUser.body.message).to.be.equal('"password" is not allowed to be empty');
     });
   });
 
   // Inserir users sem sucesso campo "email"
-  describe('Quando inserir um usuário SEM sucesso 6 ~ 9', () => {
-    it('06 - caminho: POST "/users/register" Quando inserir um novo "usuário" sem o campo "email"', async () => {
+  describe('Quando inserir um usuário SEM sucesso 8 ~ 12', () => {
+    it('08 - caminho: POST "/users/register" Quando inserir um novo "usuário" sem o campo "email"', async () => {
       const newUser = await chai.request(server)
         .post('/users/register')
         .send({
@@ -126,10 +144,10 @@ describe('Teste: Tasks', () => {
         });
       expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
       expect(newUser.body).to.have.property('message');
-      expect(newUser.body.message).to.be.equal('"email" precisa de');
+      expect(newUser.body.message).to.be.equal('"email" is required');
     });
 
-    it('07 - caminho: POST "/users/register" Quando inserir um novo "usuário" com o campo "email" mal formatado', async () => {
+    it('09 - caminho: POST "/users/register" Quando inserir um novo "usuário" com o campo "email" mal formatado', async () => {
       const newUser = await chai.request(server)
         .post('/users/register')
         .send({
@@ -139,10 +157,10 @@ describe('Teste: Tasks', () => {
         });
       expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
       expect(newUser.body).to.have.property('message');
-      expect(newUser.body.message).to.be.equal('"email" mal formatado');
+      expect(newUser.body.message).to.be.equal('"email" malformated');
     });
 
-    it('08 - caminho: POST "/users/register" Quando inserir um novo "usuário" com o campo "email" mal formatado', async () => {
+    it('10 - caminho: POST "/users/register" Quando inserir um novo "usuário" com o campo "email" mal formatado', async () => {
       const newUser = await chai.request(server)
         .post('/users/register')
         .send({
@@ -152,10 +170,10 @@ describe('Teste: Tasks', () => {
         });
       expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
       expect(newUser.body).to.have.property('message');
-      expect(newUser.body.message).to.be.equal('"email" mal formatado');
+      expect(newUser.body.message).to.be.equal('"email" malformated');
     });
 
-    it('09 - caminho: POST "/users/register" Quando inserir um novo "usuário" com o campo "email" mal formatado', async () => {
+    it('11 - caminho: POST "/users/register" Quando inserir um novo "usuário" com o campo "email" mal formatado', async () => {
       const newUser = await chai.request(server)
         .post('/users/register')
         .send({
@@ -165,13 +183,35 @@ describe('Teste: Tasks', () => {
         });
       expect(newUser).to.have.status(StatusCodes.BAD_REQUEST);
       expect(newUser.body).to.have.property('message');
-      expect(newUser.body.message).to.be.equal('"email" mal formatado');
+      expect(newUser.body.message).to.be.equal('"email" malformated');
+    });
+
+    it('12 - caminho: POST "/users/register" Quando inserir um novo "usuário" com o campo "email" existente', async () => {
+      await chai.request(server)
+        .post('/users/register')
+        .send({
+          'name': 'teste',
+          'email': 'teste@email.com',
+          'password': '123445',
+        });
+
+      const newUser = await chai.request(server)
+        .post('/users/register')
+        .send({
+          'name': 'teste',
+          'email': 'teste@email.com',
+          'password': '123445',
+        });
+
+      expect(newUser).to.have.status(StatusCodes.CONFLICT);
+      expect(newUser.body).to.have.property('message');
+      expect(newUser.body.message).to.be.equal('"email" already registered');
     });
   });
 
   // Logar com sucesso
-  describe('Quando Logar com sucesso 10', () => {
-    it('10 - caminho: POST "/users/login" Quando inserir um novo "usuário" com sucesso', async () => {
+  describe('Quando Logar com sucesso 13', () => {
+    it('13 - caminho: POST "/users/login" Quando logar com sucesso', async () => {
       const login = await chai.request(server)
         .post('/users/login')
         .send({

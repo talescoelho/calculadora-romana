@@ -27,7 +27,16 @@ const logIn = async (item) => {
   return token;
 };
 
+const emailExists = async (email) => {
+  const emailExist = await models.emailExists('users', email);
+  if (emailExist) {
+    return true;
+  }
+  return false;
+}
+
 module.exports = {
   createUser,
   logIn,
+  emailExists,
 };
