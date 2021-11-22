@@ -14,7 +14,6 @@ const { expect } = chai;
 const SECRET_KEY = 'secretKey';
 
 describe('Teste: Tasks', () => {
-  let createUser = {};
   const DBServer = new MongoMemoryServer();
 
   before(async () => {
@@ -27,7 +26,7 @@ describe('Teste: Tasks', () => {
 
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
-    createUser = await chai.request(server)
+    await chai.request(server)
         .post('/users/register')
         .send({
           'name': 'User Teste Create',
@@ -180,7 +179,7 @@ describe('Teste: Tasks', () => {
           'password': '123456',
         });
       expect(login).to.have.status(StatusCodes.OK);
-      expect(login.body.user).to.have.property('token');
+      expect(login.body).to.have.property('token');
     });
   });
 });
