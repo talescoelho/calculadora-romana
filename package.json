@@ -4,6 +4,7 @@
   "description": "",
   "main": "./src/api/app.js",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
     "dotenv": "^10.0.0",
