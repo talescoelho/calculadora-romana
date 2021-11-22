@@ -2,32 +2,6 @@
 
 Desafio da VilaApps que consiste em criar uma calculadora de números romanos.
 
-## 🚀 Começando
-
-## Utilize a rota "POST /users/register" para criar um novo usuário com o JSON:
-```
-body: {
-  "name": "Fulano",
-  "email": "fulado@email.com",
-  "password": "123456789",
-}
-```
-
-## Utilize a rota "POST /users/login" para logar com um usuário existente, o retorno vai ser o token para fazer a autenticação para a rota de "POST /romanos/soma" e "POST /romanos/subtracao". JSON:
-```
-body: {
-  "email": "fulado@email.com",
-  "password": "123456789",
-}
-```
-
-## Utilize a rota "POST /romanos/soma" e "POST /romanos/subtracao" para fazer as operações matemáticas com o JSON:
-```
-body: {
-  "romans": ["V", "X", "I"],
-}
-```
-
 ### 🔧 Instalação
 
 ```bash
@@ -39,6 +13,32 @@ $ npm install
 
 # Execute a aplicação
 $ npm run dev
+```
+
+## 🚀 Utilizando
+
+#### Utilize a rota "POST /users/register" para criar um novo usuário com o JSON:
+```
+body: {
+  "name": "Fulano",
+  "email": "fulado@email.com",
+  "password": "123456789",
+}
+```
+
+#### Utilize a rota "POST /users/login" para logar com um usuário existente, o retorno vai ser o token para fazer a autenticação para a rota de "POST /romanos/soma" e "POST /romanos/subtracao". JSON:
+```
+body: {
+  "email": "fulado@email.com",
+  "password": "123456789",
+}
+```
+
+#### Utilize a rota "POST /romanos/soma" e "POST /romanos/subtracao" para fazer as operações matemáticas com o JSON:
+```
+body: {
+  "romans": ["V", "X", "I"],
+}
 ```
 
 ## ⚙️ Executando os testes
