@@ -15,7 +15,15 @@ const logIn = async (collectionName, { email, password }) => (
     .catch((err) => err)
 );
 
+const emailExists = async (collectionName, email) => (
+  connection()
+    .then((db) => db.collection(collectionName).findOne({ email }))
+    .then((res) => res)
+    .catch(() => false)
+);
+
 module.exports = {
   insertOne,
   logIn,
+  emailExists,
 };

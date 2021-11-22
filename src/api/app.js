@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.get('/', (req, res) => res.status(200).send('Bem vindo a calculadora de números romanos!'));
+app.get('/', (_, res) => res.status(200).send('Bem vindo a calculadora de números romanos!'));
 
 app.use('/', users);
 
