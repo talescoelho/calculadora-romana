@@ -63,7 +63,7 @@ $ npm run test:dev
 * [joi](https://joi.dev/api/?v=17.4.2) - Utilizado para fazer a validação dos campos da API
 * [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) - Uma implementação de JSON Web Tokens.
 * [mongodb](https://www.mongodb.com/) - Banco de dados NoSQL
-* [mongodb-memory-server](https://github.com/nodkz/mongodb-memory-server) - Este pacote ativa um servidor MongoDB real / real programaticamente de dentro do nodejs, para teste ou simulação durante o desenvolvimento.
+* [mongodb-memory-server](https://github.com/nodkz/mongodb-memory-server) - Este pacote ativa um servidor MongoDB atual/real programaticamente de dentro do nodejs, para teste ou simulação durante o desenvolvimento.
 * [nyc](https://www.npmjs.com/package/nyc) - Cobertura mapeada de origem de projetos Babel e TypeScript
 * [sinon](https://sinonjs.org/) - Teste autônomo de spies, stubs e mocks para JavaScript. Funciona com qualquer estrutura de teste de unidade.
 
@@ -73,4 +73,4 @@ $ npm run test:dev
 
 ## 🎁 Expressões de gratidão
 
-* Muito obrigado pela oportunidade VilaApps!!
+* Muito obrigado pela oportunidade, VilaApps!!
