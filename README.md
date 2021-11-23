@@ -6,7 +6,7 @@ Desafio da VilaApps que consiste em criar uma calculadora de números romanos.
 
 ```bash
 # Clone este repositório
-$ git clone git@github.com:talescoelho/Blitz.git
+$ git clone git@github.com:talescoelho/calculadora-romana.git
 
 # Instale as dependências
 $ npm install
